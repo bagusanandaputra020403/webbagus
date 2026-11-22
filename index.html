@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExploreTrip | Open Trip Indonesia</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HALAMAN LOGIN -->
+    <section id="loginPage" class="login-page">
+        <div class="login-card">
+            <div class="logo">EXPLORE<span>TRIP.</span></div>
+            <div class="login-icon">✈</div>
+            <h1>Welcome Back!</h1>
+            <p>Login untuk memulai petualanganmu.</p>
+
+            <form id="loginForm">
+                <label>Username</label>
+                <input type="text" id="username"
+                    placeholder="Masukkan username" required>
+
+                <label>Password</label>
+                <input type="password" id="password"
+                    placeholder="Masukkan password" required>
+
+                <button type="submit" class="primary-btn">
+                    Masuk Sekarang
+                </button>
+
+                <p id="loginError" class="error"></p>
+            </form>
+
+            <div class="demo-account">
+                <b>Akun Demo</b>
+                <p>Admin: Bagus / Bagus123</p>
+                <p>Rizkal: Rizkal / Rizkal123</p>
+                <p>Salman: Salman / Salman123</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- APLIKASI UTAMA -->
+    <section id="appPage" class="hidden">
+
+        <header class="topbar">
+            <div class="logo">EXPLORE<span>TRIP.</span></div>
+
+            <div class="top-profile">
+                <span id="profileName"></span>
+                <button onclick="logout()" class="logout-btn">
+                    Logout
+                </button>
+            </div>
+        </header>
+
+        <div class="app-layout">
+
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <p class="menu-title">MENU UTAMA</p>
+
+                <button onclick="navigate('dashboard')">
+                    ◫ Dashboard
+                </button>
+
+                <button onclick="navigate('destinations')">
+                    ◈ Paket Wisata
+                </button>
+
+                <button onclick="navigate('booking')">
+                    ✚ Pemesanan
+                </button>
+
+                <button onclick="navigate('payment')">
+                    ▣ Pembayaran
+                </button>
+
+                <button onclick="navigate('invoice')">
+                    ▤ Invoice
+                </button>
+
+                <button id="adminButton"
+                    onclick="navigate('reports')">
+                    ▥ Laporan Admin
+                </button>
+            </aside>
+
+            <!-- KONTEN -->
+            <main class="main-content">
+
+                <!-- DASHBOARD -->
+                <section id="dashboard" class="page">
+                    <div class="hero">
+                        <div>
+                            <span class="hero-label">
+                                EXPLORE YOUR JOURNEY
+                            </span>
+                            <h1>Jelajahi Dunia,<br>Mulai dari Indonesia!</h1>
+                            <p>
+                                Temukan pengalaman perjalanan
+                                terbaik bersama ExploreTrip.
+                            </p>
+                            <button onclick="navigate('destinations')">
+                                Jelajahi Paket
+                            </button>
+                        </div>
+                    </div>
+
+                    <h2>Ringkasan Dashboard</h2>
+                    <div id="dashboardStats" class="stats-grid"></div>
+
+                    <h2>Destinasi Populer</h2>
+                    <div id="popularPackages" class="package-grid"></div>
+                </section>
+
+                <!-- DESTINASI -->
+                <section id="destinations" class="page hidden">
+                    <div class="section-heading">
+                        <div>
+                            <h1>Destinasi Wisata</h1>
+                            <p>Pilih perjalanan favoritmu.</p>
+                        </div>
+                    </div>
+
+                    <div id="destinationList" class="package-grid"></div>
+                </section>
+
+                <!-- PEMESANAN -->
+                <section id="booking" class="page hidden">
+                    <h1>Form Pemesanan</h1>
+                    <p class="subtitle">
+                        Lengkapi informasi perjalanan di bawah ini.
+                    </p>
+
+                    <form id="bookingForm" class="form-card">
+                        <label>Nama Lengkap</label>
+                        <input type="text" id="customerName"
+                            placeholder="Nama pemesan" required>
+
+                        <label>Pilih Paket Wisata</label>
+                        <select id="packageSelect" required>
+                            <option value="">Pilih destinasi</option>
+                        </select>
+
+                        <label>Jumlah Peserta</label>
+                        <input type="number" id="participants"
+                            min="1" max="20" value="1" required>
+
+                        <div id="bookingPrice" class="price-preview">
+                            Pilih paket untuk melihat harga.
+                        </div>
+
+                        <button type="submit" class="primary-btn">
+                            Buat Pesanan
+                        </button>
+                    </form>
+                </section>
+
+                <!-- PEMBAYARAN -->
+                <section id="payment" class="page hidden">
+                    <h1>Pembayaran</h1>
+                    <p class="subtitle">
+                        Selesaikan pembayaran pemesananmu.
+                    </p>
+
+                    <div id="paymentList"></div>
+                </section>
+
+                <!-- INVOICE -->
+                <section id="invoice" class="page hidden">
+                    <h1>Invoice Pemesanan</h1>
+                    <p class="subtitle">
+                        Daftar invoice dan bukti pembayaran.
+                    </p>
+
+                    <div id="invoiceList"></div>
+                </section>
+
+                <!-- LAPORAN ADMIN -->
+                <section id="reports" class="page hidden">
+                    <h1>Laporan Keuangan</h1>
+                    <p class="subtitle">
+                        Informasi seluruh transaksi ExploreTrip.
+                    </p>
+
+                    <div class="filter-area">
+                        <select id="reportStatus">
+                            <option value="Semua">Semua Status</option>
+                            <option value="Menunggu Pembayaran">
+                                Menunggu Pembayaran
+                            </option>
+                            <option value="Lunas">Lunas</option>
+                        </select>
+
+                        <input type="date" id="dateFilter">
+
+                        <button onclick="renderReports()">
+                            Terapkan Filter
+                        </button>
+
+                        <button onclick="exportCSV()">
+                            Export Excel / CSV
+                        </button>
+
+                        <button onclick="window.print()">
+                            Cetak PDF
+                        </button>
+                    </div>
+
+                    <div id="reportStats" class="stats-grid"></div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Invoice</th>
+                                    <th>Pengguna</th>
+                                    <th>Destinasi</th>
+                                    <th>Peserta</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="reportTable"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
